@@ -1,0 +1,15 @@
+-- 코드를 작성해주세요
+WITH base AS (
+    SELECT
+        YEAR(DIFFERENTIATION_DATE) AS y,
+        ID,
+        SIZE_OF_COLONY,
+        MAX(SIZE_OF_COLONY) OVER (PARTITION BY YEAR(DIFFERENTIATION_DATE)) AS y_max
+    FROM ECOLI_DATA
+)
+SELECT
+    y AS 'YEAR',
+    (y_max - SIZE_OF_COLONY) AS YEAR_DEV,
+    ID
+FROM base
+ORDER BY y, YEAR_DEV;
